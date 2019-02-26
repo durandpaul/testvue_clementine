@@ -1,0 +1,10 @@
+<template>
+  <v-app id="inspire">
+    <nuxt/>
+  </v-app>
+</template>
+
+<style scoped>
+
+</style>
+
