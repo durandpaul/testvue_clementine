@@ -23,7 +23,7 @@ export const mutations = {
     todo.done = !todo.done
   }
 }
-
+ 
 export const actions = {
   async addTodo ({ commit }) {
     const { data } = await axios.get('http://mon-api/')
@@ -32,7 +32,7 @@ export const actions = {
 }
 
 export const getters = {
-  todo: state => state.todosList,
-  completedTodos: state => state.todosList.complete(),
-  awaitTodos: state => state.todosList.notComplete()
+  todosCount: state => state.todosList.length,
+  // completedTodos: state => state.todosList.complete(),
+  // awaitTodos: state => state.todosList.notComplete()
 }

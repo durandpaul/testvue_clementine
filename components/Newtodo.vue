@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       newtodo: "",
-      todosList: [],
+      todosList: this.$store.state.todolist.todosList,
       dateOptions: {
         weekday: "long",
         year: "numeric",
@@ -45,7 +45,8 @@ export default {
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit"
-      }
+      },
+      filtered:'all',
     };
   },
   methods: {
@@ -66,8 +67,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      todosCount:'todolist/todosCount',
+    
+    }),
     todosExist() {
-      if (this.todosList.length == 0) {
+      if ( this.todosCount == 0) {
         return true;
       }
     },

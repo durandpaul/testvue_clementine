@@ -7,3 +7,9 @@ export const mutations = {
         state.counter++
     }
 }
+
+export const actions = {
+    increment (state) {
+      state.counter++
+    }
+}
