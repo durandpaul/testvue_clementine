@@ -12,58 +12,74 @@
           label="todoName"
           single-line
           icon="clear-icon"
-          outline
+          solo
           clearable
           v-model="todoName"
         >
-        <!-- Here the todo -->
+          <!-- Here the todo -->
         </v-text-field>
-        <div class="d-flex">
-          <!-- <v-rating v-model="rating"  color="amber" dense half-increments size="20"></v-rating> -->
-          <!-- Change here maybe for choose importance of the todo -->
+        <div class="text-xs-center">
+          <v-rating 
+            v-model="rating"
+            length="6"
+            dense
+            hover='hover'
+            color="red darken-3"
+            background-color="grey lighten-1"
+            :readonly="readonly"
+          >
+          </v-rating>
         </div>
-        <v-spacer></v-spacer>
-        <v-btn color="error" @click="getId">supprimer</v-btn>
+        <v-btn color="error" @click.prevent="getId">supprimer</v-btn>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-actions>
-         <div class="ml-2 grey--text text--darken-2">
-            <!-- Author and Date of todo  -->
-            <p>{{date}}date</p>
-          </div>
+        <div class="ml-2 grey--text text--darken-2">
+          <!-- Author and Date of todo  -->
+          <p>date d'ajout : {{date}}</p>
+        </div>
       </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script >
-'use strict';
+"use strict";
 
-  export default {
-    props: {
-      id: {
-        type: Number
-      },
-      todoName: {
-        type: String,
-        // required: true
-      },
-      rating: {
-        type: Number,
-        // required: true
-      },
-      date: {
-        type: Date,
-      }
+export default {
+  props: {
+    id: {
+      type: Number
     },
-    methods: {
-      getId(){
-        // console.log(this.id);
-        // return this.id;
-        this.$emit('delete');
-      }
-
+    todoName: {
+      type: String
+      // required: true
+    },
+    rating: {
+      type: Number
+      // required: true
+    },
+    date: {
+      type: String
     }
-
-  };
+  },
+  data () {
+    return {
+      hoverRate: true,
+      readonly: false,
+    }
+  },
+  methods: {
+    getId() {
+      // console.log(this.id);
+      // return this.id;
+      this.$emit("delete");
+    }
+  },
+  computed: {
+    hover (){
+      return true
+    }
+  }
+};
 </script>
