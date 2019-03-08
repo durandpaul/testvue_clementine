@@ -1,19 +1,18 @@
 export const state = () => ({
-  todosList: [{
-    name: 'test from the store',
-    completed: false,
-    rating: 4,
-    date: "date" 
-  }]
+  todosList: []
 })
 
 export const mutations = {
-  addTodo (state, name, date) {
+  setTodos: (state, todosList) => {
+    state.todosList = todosList 
+  },
+  addTodo (state, name) {
+    let date = new Date();
     state.todosList.push({
       name: name,
       completed: false,
       rating: 4,
-      date: date
+      date: date.toLocaleDateString()
     })
   },
   removeTodo (state, { todo }) {
@@ -25,13 +24,22 @@ export const mutations = {
 }
  
 export const actions = {
-  async addTodo ({ commit }) {
-    const { data } = await axios.get('http://mon-api/')
-    commit('SET_STARS', data)
-  } 
+  ADD_TODO: (store, name) => {
+    store.commit('addTodo', name)
+  },
+  DELETE_TODO: (store, name) => {
+    store.commit('addTodo', name)
+    this.todosList.splice(id, 1);
+  },
+  async FETCH_TODOS ({ commit }) {
+    const { data } = await state.todosList 
+    commit('setTodos', data)
+  },
 }
 
 export const getters = {
+
+  todos: state => state.todosList,
   todosCount: state => state.todosList.length,
   // completedTodos: state => state.todosList.complete(),
   // awaitTodos: state => state.todosList.notComplete()

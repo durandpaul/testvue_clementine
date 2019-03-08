@@ -11,12 +11,13 @@
             v-model="newtodo"
             clearable
           ></v-text-field>
-          <v-btn color="success" @click.prevent="addTodo">ajouter un todo</v-btn>
+          <v-btn color="success" value= newtodo @click.prevent="addTodo(newtodo)" >ajouter un todo</v-btn>
         </v-form>
         <div>
+          <h4>Nombre de todos : {{todosCount}}</h4>
           <p v-show="todosExist">Ajouter votre Todo ! todocement.</p>
         </div>
-        <v-list v-for="(todo, index) in todosList" :key="index">
+        <v-list v-for="(todo, index) in todos" :key="index">
           <Atodo :id="index" :todoName="todo.name" :date="todo.date" @delete="deleteTodo(index)"/>
         </v-list>
       </v-flex>
@@ -28,8 +29,7 @@
 "use strict";
 
 import Atodo from "@/components/Atodo";
-import { mapMutations } from "vuex";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: { Atodo },
@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       newtodo: "",
-      todosList: this.$store.state.todolist.todosList,
       dateOptions: {
         weekday: "long",
         year: "numeric",
@@ -49,28 +48,25 @@ export default {
       filtered:'all',
     };
   },
+  async fetch ({ todosList, params }) {
+    await todosList.dispatch('FETCH_TODOS');
+  },
   methods: {
-    addTodo() {
-      this.todosList.push({
-        name: this.newtodo,
-        rate: {
-          type: Number,
-          default: 0
-        },
-        completed: false,
-        date: new Date().toLocaleString("fr", this.dateOptions)
-      });
-      this.newtodo = "";
-    },
+    ...mapActions({
+      addTodo: 'todostore/ADD_TODO'
+    }),
     deleteTodo(id) {
       this.todosList.splice(id, 1);
     }
   },
   computed: {
     ...mapGetters({
-      todosCount:'todolist/todosCount',
-    
+      todos:'todostore/todos',
+      todosCount:'todostore/todosCount',
     }),
+    // todos () {
+    //   return todos;
+    // },
     todosExist() {
       if ( this.todosCount == 0) {
         return true;
