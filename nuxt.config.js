@@ -18,11 +18,19 @@ export default {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
+  modules: [
+    '@nuxtjs/axios',
+  ],
+  axios: {
+    // proxyHeaders: false
+  },
+  plugins: ['~/plugins/vuetify', ],
+  css: ['~/assets/style/app.styl'],
   /*
   ** Build configuration
   */
   build: {
-    // vendor: ['vuetify'],
+    
     transpile: [/^vuetify/],
     /*
     ** Run ESLint on save
@@ -38,7 +46,6 @@ export default {
       }
     }
   },
-  plugins: ['~/plugins/vuetify'],
-  css: ['~/assets/style/app.styl']
 }
 
+// https://my-json-server.typicode.com/durandpaul/testvue_clementine/db access to the DB

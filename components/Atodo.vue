@@ -1,10 +1,12 @@
 <template>
+  <div>
   <v-hover>
     <v-card
       slot-scope="{ hover }"
       :class="`elevation-${hover ? 12 : 2}`"
       class="mx-auto"
       width="300"
+      background-color="grey darken-1"
     >
       <v-card-title>
         <v-text-field
@@ -41,12 +43,14 @@
       </v-card-actions>
     </v-card>
   </v-hover>
+  </div>
 </template>
 
 <script >
 "use strict";
 
 export default {
+
   props: {
     id: {
       type: Number
@@ -83,3 +87,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+div {
+  /* background-color: darkgray; */
+}
+</style>

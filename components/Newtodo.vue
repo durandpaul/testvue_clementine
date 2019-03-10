@@ -1,5 +1,6 @@
 <template>
   <section>
+      <h4>Nombre de todos : {{todosCount}}</h4>
     <v-layout align-center justify-center row wrap>
       <v-flex xs2>
         <v-form ref="form" lazy-validation>
@@ -11,10 +12,10 @@
             v-model="newtodo"
             clearable
           ></v-text-field>
-          <v-btn color="success" value= newtodo @click.prevent="addTodo(newtodo)" >ajouter un todo</v-btn>
+          <v-btn color="success" value= newtodo @click.prevent="add(newtodo)" >ajouter un todo</v-btn>
         </v-form>
         <div>
-          <h4>Nombre de todos : {{todosCount}}</h4>
+          <p v-show="empty">Votre TodO est vide !</p>
           <p v-show="todosExist">Ajouter votre Todo ! todocement.</p>
         </div>
         <v-list v-for="(todo, index) in todos" :key="index">
@@ -33,10 +34,15 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: { Atodo },
-  props: {},
+  head () {
+    return {
+      title: 'The TodO LisT'
+    }
+  },
   data() {
     return {
-      newtodo: "",
+      newtodo: '',
+      empty: false,
       dateOptions: {
         weekday: "long",
         year: "numeric",
@@ -48,16 +54,26 @@ export default {
       filtered:'all',
     };
   },
-  async fetch ({ todosList, params }) {
-    await todosList.dispatch('FETCH_TODOS');
+  async fetch ({ store, params }) {
+    await store.dispatch('GET_TODOS');
   },
   methods: {
     ...mapActions({
-      addTodo: 'todostore/ADD_TODO'
+      addTodo: 'todostore/ADD_TODO',
     }),
     deleteTodo(id) {
-      this.todosList.splice(id, 1);
-    }
+
+    },
+    add(name){
+      
+      if(name === ''){
+        this.empty = true;
+      } else {
+        this.empty = false;
+        this.addTodo(name);
+        this.newtodo = '';
+      }
+    },
   },
   computed: {
     ...mapGetters({
@@ -78,6 +94,9 @@ export default {
 </script>
 
 <style scoped>
+section {
+  background-color: darkgray;
+}
 div > p {
   color: rgb(240, 84, 23);
 }

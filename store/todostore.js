@@ -6,14 +6,8 @@ export const mutations = {
   setTodos: (state, todosList) => {
     state.todosList = todosList 
   },
-  addTodo (state, name) {
-    let date = new Date();
-    state.todosList.push({
-      name: name,
-      completed: false,
-      rating: 4,
-      date: date.toLocaleDateString()
-    })
+  addTodo (state, data) {
+    state.todosList.push(data); 
   },
   removeTodo (state, { todo }) {
     state.todosList.splice(state.todosList.indexOf(todo), 1)
@@ -24,14 +18,21 @@ export const mutations = {
 }
  
 export const actions = {
-  ADD_TODO: (store, name) => {
-    store.commit('addTodo', name)
+  async ADD_TODO (store, name) {
+    let date = new Date();
+    const { data } = await this.$axios.$post('https://my-json-server.typicode.com/durandpaul/testvue_clementine/db', {
+      name: name,
+      completed: false,
+      rating: 4,
+      date: date.toLocaleDateString()
+    })
+    store.commit('addTodo', data)
   },
   DELETE_TODO: (store, name) => {
     store.commit('addTodo', name)
     this.todosList.splice(id, 1);
   },
-  async FETCH_TODOS ({ commit }) {
+  async GET_TODOS ({ commit }) {
     const { data } = await state.todosList 
     commit('setTodos', data)
   },

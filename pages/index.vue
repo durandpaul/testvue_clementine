@@ -24,5 +24,8 @@ export default {
 </script>
 
 <style scoped>
+  html, body {
+    background-color: lightblue;
+  }
 </style>
 
